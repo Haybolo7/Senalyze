@@ -1,0 +1,91 @@
+body {
+    background-color:#00bcd4;
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.header-banner {
+    background-color: #5c6bc0;
+    color: #1a237e;
+    padding: 15px;
+    border-radius: 40px;
+    display: inline-block;
+    font-weight: bold;
+    text-decoration: underline;
+    font-style: italic;
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.main-layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.input-section {
+    flex: 3;
+}
+
+textarea {
+    width: 90%;
+    height: 100px;
+    background-color: #90caf9;
+    border: none;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.analyze-btn {
+    background-color: #00838f;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.audio-circle {
+    background-color: lightblue;
+    width: 180px;
+    height: 180px;
+    border-radius: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color:darkblue;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #26c6da;
+    margin-top: 20px;
+}
+
+th,
+td {
+    border: 2px solid black;
+    padding: 12px;
+    text-align: left;
+}
+
+.fact-box {
+    background-color: #4caf50;
+    padding: 20px;
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}

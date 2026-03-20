@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Expert Sentence Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header-banner">Expert Sentence Analyzer</div>
+
+        <div class="main-layout">
+            <div class="input-section">
+                <textarea id="sentenceInput" placeholder="Write the sentence for insightful analysis in the space provided here"></textarea>
+                <button onclick="analyzeSentence()" class="analyze-btn">Analyze your sentence</button>
+            </div>
+
+            <div class="audio-section" onclick="readAloud()">
+                <div class="audio-circle">
+                    <p>Read the sentence aloud (Mic)</p>
+                    <img src="https://cdn-icons-png.flaticon.com/512/27/27184.png" alt="Speaker" width="40">
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsArea" style="display:none;">
+            <h3>YOUR ANALYSIS IS HERE-</h3>
+            <table id="analysisTable">
+                <thead>
+                    <tr>
+                        <th>Word</th>
+                        <th>Part of Speech</th>
+                        <th>Meaning</th>
+                        <th>Word Count</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+            <div class="fact-box">
+                Fun Fact: The Readability Score is <span id="readabilityScore">0.0</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function readAloud() {
+            const text = document.getElementById('sentenceInput').value;
+            if (text) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        async function analyzeSentence() {
+            const textInput = document.getElementById('sentenceInput').value;
+            if (!textInput.trim()) {
+                alert("Please enter a sentence first!");
+                return;
+            }
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' // Crucial for Flask to recognize JSON
+                    },
+                    body: JSON.stringify({ text: textInput })
+                });
+                const data = await response.json();
+                if (data.error){
+                    alert("Python Error: " + data.error);
+                    return;
+                }
+                const tbody = document.getElementById('tableBody');
+                tbody.innerHTML = '';
+                data.analysis.forEach(item => {
+                    tbody.innerHTML += `<tr>
+                        <td>${item.word}</td>
+                        <td>${item.pos}</td>
+                        <td>${item.meaning}</td>
+                        <td>${item.count}</td>
+                    </tr>`;
+                });
+                document.getElementById('readabilityScore').innerText = data.readability;
+                document.getElementById('resultsArea').style.display = 'block';
+            }catch (error) {
+                console.error("Connection Error:", error);
+                alert("Could not connect to the analyzer. Ensure Python is running!");
+            }
+        }
+    </script>
+</body>
+
+</html>
